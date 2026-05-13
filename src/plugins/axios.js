@@ -5,11 +5,10 @@ const token = Cookies.get('token')
 
 axios.defaults.baseURL = 'http://127.0.0.1:8000/api'
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
-axios.defaults.headers.common['Content-Type'] = 'multipart/form-data'
+// axios.defaults.headers.common['Content-Type'] = 'application/json'
 axios.defaults.headers.common['Accept'] = 'application/json'
 axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
 
-// 1. Interceptor Request (Sudah ada)
 axios.interceptors.request.use(
     config => {
         const token = Cookies.get('token')
@@ -20,10 +19,8 @@ axios.interceptors.request.use(
     },
 )
 
-// 2. Tambahkan Interceptor Response di sini
 axios.interceptors.response.use(
     response => {
-        // Jika response sukses (status 2xx), langsung kembalikan datanya
         return response
     },
     error => {

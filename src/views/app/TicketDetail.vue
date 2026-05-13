@@ -14,16 +14,14 @@ const { fetchTicket, createTicketReply, deleteTicket} = ticketStore
 const route = useRoute()
 const router = useRouter()
 
-// TODO: Create refs for ticket and form
-// Hint: You'll need ticket object and form with content field
 const ticket = ref({})
 const form = ref({
     content: '',
 })
 
-
 const fetchTicketDetail = async () => {
     const response = await fetchTicket(route.params.code)
+    console.log("Data Tiket dari API:", response)
 
     ticket.value = response
     form.value.status = response.status
@@ -42,7 +40,6 @@ const handleDelete = async () => {
         if (confirm(`Apakah Anda yakin ingin menghapus tiket #${ticket.value.code}?`)) {
             try {
                 await deleteTicket(ticket.value.code)
-                // Setelah sukses, arahkan kembali ke daftar tiket
                 router.push({ name: 'app.dashboard' }) 
             } catch (err) {
                 console.error("Gagal menghapus:", err)
@@ -68,12 +65,13 @@ onMounted(async () => {
     </div>
 
     <!-- Ticket Info -->
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 mb-6">
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 mb-6" v-if="ticket.code">
         <div class="p-6">
+            <!-- Header Info -->
             <div class="flex items-start justify-between">
                 <div>
                     <h1 class="text-2xl font-bold text-gray-800">{{ ticket.title }}</h1>
-                    <div class="mt-2 flex items-center space-x-4">
+                    <div class="mt-2 flex flex-wrap items-center gap-3">
                         <span class="px-3 py-1 text-sm font-medium text-blue-700 bg-blue-100 rounded-full">
                             {{ capitalize(ticket.status) }}
                         </span>
@@ -81,11 +79,29 @@ onMounted(async () => {
                             {{ capitalize(ticket.priority) }}
                         </span>
                         <span class="text-sm text-gray-500">#{{ ticket.code }}</span>
-                        <span class="text-sm text-gray-500">
+                        <span class="text-sm text-gray-500" v-if="ticket.created_at">
                             Dibuat pada {{ DateTime.fromISO(ticket.created_at).toFormat('dd MMMM yyyy, HH:mm') }}
                         </span>
                     </div>
                 </div>
+            </div>
+
+            <!-- Deskripsi Tiket -->
+            <div class="mt-6 pt-6 border-t border-gray-100">
+                <h3 class="text-sm font-semibold text-gray-800 mb-3">Deskripsi Masalah:</h3>
+                <!-- Penggunaan whitespace-pre-line agar enter/line break pada textarea tetap terbaca -->
+                <p class="text-gray-700 whitespace-pre-line leading-relaxed">
+                    {{ ticket.description }}
+                </p>
+            </div>
+
+            <!-- Lampiran Gambar (Hanya tampil jika ada image_url) -->
+            <div class="mt-6 pt-6 border-t border-gray-100" v-if="ticket.image_url">
+                <h3 class="text-sm font-semibold text-gray-800 mb-3">Lampiran:</h3>
+                <img :src="ticket.image_url" alt="Lampiran Tiket" 
+                    class="max-w-full md:max-w-lg rounded-lg border border-gray-200 shadow-sm cursor-pointer hover:opacity-90 transition"
+                    @click="window.open(ticket.image_url, '_blank')"
+                    title="Klik untuk memperbesar">
             </div>
         </div>
     </div>
@@ -107,7 +123,7 @@ onMounted(async () => {
                         </div>
                     </div>
                     <div class="mt-3 text-sm text-gray-800">
-                        <p>{{ reply.content }}</p>
+                        <p class="whitespace-pre-line">{{ reply.content }}</p>
                     </div>
                 </div>
             </div>
@@ -128,14 +144,14 @@ onMounted(async () => {
                 </div>
                 <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-4">
-                        <button @click="handleDelete" 
+                        <button type="button" @click="handleDelete" 
                             class="px-4 py-2 border border-red-100 rounded-lg text-sm text-red-600 hover:bg-red-50"
                             :disabled="loading">
                             <i data-feather="trash-2" class="w-4 h-4 inline-block mr-2"></i>
                             Hapus
                         </button>
                     </div>
-                    <button class="px-6 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700">
+                    <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700" :disabled="loading">
                         <i data-feather="send" class="w-4 h-4 inline-block mr-2"></i>
                         <span v-if="!loading">
                             Kirim Balasan
