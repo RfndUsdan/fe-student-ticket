@@ -94,7 +94,6 @@
 
     <template>
         <div class="p-6">
-            <!-- Ticket Info -->
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 mb-6">
                 <div class="p-6">
                     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
@@ -113,7 +112,14 @@
                                 </p>
                             </div>
 
-                            <div class="mt-4 flex flex-wrap items-center gap-3">
+                            <div class="mt-4" v-if="ticket.image_url">
+                                <h4 class="text-sm font-medium text-gray-700 mb-2">Lampiran Bukti:</h4>
+                                <img :src="ticket.image_url" alt="Lampiran Tiket" 
+                                    class="max-w-full md:max-w-md rounded-lg border border-gray-200 shadow-sm cursor-pointer hover:opacity-90 transition"
+                                    @click="window.open(ticket.image_url, '_blank')"
+                                    title="Klik untuk memperbesar di tab baru">
+                            </div>
+                            <div class="mt-6 flex flex-wrap items-center gap-3">
                                 <span class="px-3 py-1 text-xs font-medium rounded-lg" :class="{
                                     'text-blue-700 bg-blue-100': ticket.status === 'open',
                                     'text-yellow-700 bg-yellow-100': ticket.status === 'in_progress',
@@ -133,7 +139,7 @@
                                     Oleh: <span class="font-medium">{{ ticket.user?.name }}</span>
                                 </span>
                                 <span class="text-xs text-gray-400">
-                                    {{ DateTime.fromISO(ticket.created_at).toFormat('dd LMMM yyyy, HH:mm') }}
+                                    {{ ticket.created_at ? DateTime.fromISO(ticket.created_at).toFormat('dd LMMM yyyy, HH:mm') : '' }}
                                 </span>
                             </div>
                         </div>
@@ -163,9 +169,8 @@
                 </div>
             </div>
 
-            <!-- Discussion Thread -->
             <div class="bg-white rounded-xl shadow-sm border border-gray-100">
-                <div v-for="reply in ticket.ticket_replies" class="p-6 border-b border-gray-100"
+                <div v-for="reply in ticket.ticket_replies" :key="reply.id" class="p-6 border-b border-gray-100"
                     v-if="ticket.ticket_replies?.length > 0">
                     <div class="flex items-start space-x-4">
                         <img :src="`https://ui-avatars.com/api/?name=${reply.user.name}&background=0D8ABC&color=fff`"
@@ -180,7 +185,7 @@
                                 </div>
                             </div>
                             <div class="mt-3 text-sm text-gray-800">
-                                <p>{{ reply.content }}</p>
+                                <p class="whitespace-pre-line">{{ reply.content }}</p>
                             </div>
                         </div>
                     </div>
@@ -239,6 +244,4 @@
                 </div>
             </div>
         </div>
-
-
     </template>

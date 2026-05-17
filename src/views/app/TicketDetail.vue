@@ -47,6 +47,22 @@ const handleDelete = async () => {
         }
 }
 
+const getStatusColor = (status) => {
+    const s = status?.toLowerCase() || '';
+    if (s === 'in progress' || s === 'in_progress') return 'text-yellow-700 bg-yellow-100';
+    if (s === 'closed' || s === 'resolved') return 'text-green-700 bg-green-100';
+    if (s === 'open') return 'text-blue-700 bg-blue-100';
+    return 'text-gray-700 bg-gray-100'; // Default warna abu-abu
+}
+
+const getPriorityColor = (priority) => {
+    const p = priority?.toLowerCase() || '';
+    if (p === 'low') return 'text-green-700 bg-green-100';
+    if (p === 'medium' || p === 'normal') return 'text-yellow-700 bg-yellow-100';
+    if (p === 'high' || p === 'urgent') return 'text-red-700 bg-red-100';
+    return 'text-gray-700 bg-gray-100'; // Default warna abu-abu
+}
+
 onMounted(async () => {
     await fetchTicketDetail()
 
@@ -72,10 +88,10 @@ onMounted(async () => {
                 <div>
                     <h1 class="text-2xl font-bold text-gray-800">{{ ticket.title }}</h1>
                     <div class="mt-2 flex flex-wrap items-center gap-3">
-                        <span class="px-3 py-1 text-sm font-medium text-blue-700 bg-blue-100 rounded-full">
+                        <span :class="['px-3 py-1 text-sm font-medium rounded-full', getStatusColor(ticket.status)]">
                             {{ capitalize(ticket.status) }}
                         </span>
-                        <span class="px-3 py-1 text-sm font-medium text-red-700 bg-red-100 rounded-full">
+                        <span :class="['px-3 py-1 text-sm font-medium rounded-full', getPriorityColor(ticket.priority)]">
                             {{ capitalize(ticket.priority) }}
                         </span>
                         <span class="text-sm text-gray-500">#{{ ticket.code }}</span>
