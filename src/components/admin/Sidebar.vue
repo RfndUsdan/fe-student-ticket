@@ -10,7 +10,7 @@ const handleLogout = async () => {
 </script>
 
 <template>
-    <aside class="w-64 bg-gray-900 min-h-screen shadow-xl">
+    <aside class="w-64 bg-gray-50 min-h-screen shadow-xl">
         <div class="p-6 border-b border-gray-800">
             <h1 class="text-2xl font-bold text-blue-500 flex items-center">
                 <i data-feather="book" class="w-8 h-8 mr-2 text-blue-500"></i>
@@ -20,15 +20,15 @@ const handleLogout = async () => {
         
         <nav class="mt-6">
             <RouterLink :to="{ name: 'admin.dashboard' }"
-                class="flex items-center px-6 py-3 text-gray-400 transition-colors duration-200 hover:bg-gray-800 hover:text-white hover:border-l-4 hover:border-blue-500"
-                :class="{ 'bg-gray-800 text-white border-l-4 border-blue-500': $route.name === 'admin.dashboard' }">
+                class="flex items-center px-6 py-3 text-gray-400 transition-colors duration-200 hover:bg-white-800 hover:text-gray-800 hover:border-l-4 hover:border-blue-500"
+                :class="{ 'text-gray-800 border-l-4 border-blue-500': $route.name === 'admin.dashboard' }">
                 <i data-feather="home" class="w-5 h-5 mr-3"></i>
                 Dashboard
             </RouterLink>
 
             <RouterLink :to="{ name: 'admin.ticket' }"
-                class="flex items-center px-6 py-3 text-gray-400 transition-colors duration-200 hover:bg-gray-800 hover:text-white hover:border-l-4 hover:border-blue-500"
-                :class="{ 'bg-gray-800 text-white border-l-4 border-blue-500': $route.name === 'admin.ticket' }">
+                class="flex items-center px-6 py-3 text-gray-400 transition-colors duration-200 hover:bg-white-800 hover:text-gray-800 hover:border-l-4 hover:border-blue-500"
+                :class="{ 'text-gray-800 border-l-4 border-blue-500': $route.name === 'admin.ticket' }">
                 <i data-feather="tag" class="w-5 h-5 mr-3"></i>
                 Tiket
             </RouterLink>
