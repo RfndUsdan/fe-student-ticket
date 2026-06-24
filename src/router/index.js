@@ -4,6 +4,8 @@ import { useAuthStore } from '@/stores/auth'
 import Dashboard from '@/views/admin/Dashboard.vue'
 import TicketList from '@/views/admin/ticket/TicketList.vue'
 import TicketDetail from '@/views/admin/ticket/TicketDetail.vue'
+import UsersList from '@/views/admin/users/UsersList.vue'
+import UserDetail from '@/views/admin/users/UserDetail.vue'
 import Login from '@/views/auth/Login.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import App from '@/layouts/App.vue'
@@ -71,6 +73,18 @@ const router = createRouter({
             isAdmin: true,
             title: 'Ticket Detail',
           },
+        },
+        {
+          path: 'users',
+          name: 'admin.users',
+          component: UsersList,
+          meta: { requiresAuth: true, isAdmin: true, title: 'Manajemen User' },
+        },
+        {
+          path: 'users/:id',
+          name: 'admin.users.detail',
+          component: UserDetail, // Pastikan komponen ini sudah ada nanti
+          meta: { requiresAuth: true, isAdmin: true, title: 'Detail User' },
         },
       ],
     },

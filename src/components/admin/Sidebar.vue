@@ -33,6 +33,13 @@ const handleLogout = async () => {
                 Tiket
             </RouterLink>
 
+            <RouterLink :to="{ name: 'admin.users' }"
+                class="flex items-center px-6 py-3 text-gray-400 transition-colors duration-200 hover:bg-white-800 hover:text-gray-800 hover:border-l-4 hover:border-blue-500"
+                :class="{ 'text-gray-800 border-l-4 border-blue-500': $route.name === 'admin.users' || $route.name === 'admin.users.detail' }">
+                <i data-feather="users" class="w-5 h-5 mr-3"></i>
+                Pengguna
+            </RouterLink>
+
             <a @click="handleLogout"
                 class="flex items-center px-6 py-3 text-gray-400 cursor-pointer transition-colors duration-200 hover:bg-red-900/20 hover:text-red-400 hover:border-l-4 hover:border-red-500 mt-6">
                 <i data-feather="log-out" class="w-5 h-5 mr-3"></i>
