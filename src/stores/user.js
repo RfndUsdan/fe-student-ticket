@@ -35,6 +35,28 @@ export const useUserStore = defineStore("user", {
             }
         },
 
+        async createUser(payload) {
+            this.loading = true;
+            this.error = null;
+            
+            try {
+                // Menggunakan POST untuk mengirim data baru
+                const response = await axiosInstance.post('/users', payload, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data' 
+                    }
+                });
+                
+                this.success = response.data.message || 'User berhasil ditambahkan';
+                return response.data.data;
+            } catch (error) {
+                this.error = handleError(error);
+                throw error; 
+            } finally {
+                this.loading = false;
+            }
+        },
+
         async deleteUser(id) {
             this.loading = true;
             this.error = null;

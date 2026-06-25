@@ -40,6 +40,16 @@ const handleDelete = async (id) => {
 </script>
 
 <template>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        </div>
+    
+    <div class="mt-4 flex justify-end">
+        <RouterLink :to="{ name: 'admin.users.create' }"
+            class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-lg text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            <i data-feather="plus" class="w-4 h-4 mr-2"></i>
+            Tambah User
+        </RouterLink>
+    </div>
     <div class="p-6">
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 mb-6">
             <div class="p-6">
