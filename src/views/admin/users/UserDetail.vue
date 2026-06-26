@@ -64,12 +64,10 @@ const handleSubmit = async () => {
     formData.append('nim', form.value.nim);
     formData.append('role', form.value.role);
 
-    // Kirim password hanya jika diisi (ingin diubah)
     if (form.value.password) {
         formData.append('password', form.value.password);
     }
 
-    // Kirim avatar hanya jika ada file baru yang dipilih
     if (form.value.avatar) {
         formData.append('avatar', form.value.avatar);
     }
@@ -77,10 +75,9 @@ const handleSubmit = async () => {
     try {
         await userStore.updateUser(userId, formData);
         alert('Data user berhasil diperbarui!');
-        router.push({ name: 'admin.users' }); // Kembali ke halaman list
+        router.push({ name: 'admin.users' });
     } catch (error) {
         console.error("Gagal mengupdate user", error);
-        // Tangani error dari backend (misalnya validasi gagal)
         alert('Gagal memperbarui data. Cek kembali form Anda.');
     }
 };

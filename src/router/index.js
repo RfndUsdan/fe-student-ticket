@@ -8,6 +8,7 @@ import UsersList from '@/views/admin/users/UsersList.vue'
 import UserDetail from '@/views/admin/users/UserDetail.vue'
 import UserCreate from '@/views/admin/users/UserCreate.vue'
 import Login from '@/views/auth/Login.vue'
+import Profile from '@/views/app/Profile.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import App from '@/layouts/App.vue'
 import AppDashboard from '@/views/app/Dashboard.vue'
@@ -31,6 +32,12 @@ const router = createRouter({
             requiresAuth: true,
             title: 'Dashboard',
           },
+        },
+        {
+          path: 'profile',
+          name: 'app.profile',
+          component: Profile,
+          meta: { requiresAuth: true, title: 'Profil Saya' },
         },
         {
           path: 'ticket/:code',
