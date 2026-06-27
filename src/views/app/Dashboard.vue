@@ -42,8 +42,9 @@ onMounted(async() => {
             <h1 class="text-2xl font-bold text-gray-800">Tiket Saya</h1>
             <p class="text-sm text-gray-500 mt-1">Kelola dan pantau status tiket Anda</p>
         </div>
+        
         <RouterLink :to="{ name: 'app.ticket.create' }"
-            class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+            class="hidden md:inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
             <i data-feather="plus" class="w-4 h-4 mr-2"></i>
             Buat Tiket Baru
         </RouterLink>
