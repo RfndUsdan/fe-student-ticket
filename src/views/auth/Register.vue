@@ -73,6 +73,24 @@ const toggleConfirmPassword = () => {
             </div>
         </div>
 
+        <!-- NIM -->
+        <div>
+            <label for="nim" class="block text-sm font-medium text-gray-700">Nomor Induk Mahasiswa (NIM)</label>
+            <div class="mt-1 relative">
+                <!-- TODO: Add v-model binding for NIM -->
+                <input v-model="form.nim" type="text" id="nim" name="nim"
+                    class="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                    placeholder="Contoh: 123456789" :class="{'border-red-500 ring-red-500': error?.nim }">
+                <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                    <i data-feather="user" class="w-4 h-4 text-gray-400"></i>
+                </div>
+
+                <p class="mt-1 text-xs text-red-500" v-if="error?.nim">
+                    {{ error?.nim?.join(', ') }}
+                </p>
+            </div>
+        </div>
+
         <!-- Password -->
         <div>
             <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
@@ -90,6 +108,27 @@ const toggleConfirmPassword = () => {
 
                 <p class="mt-1 text-xs text-red-500" v-if="error?.password">
                     {{ error?.password?.join(', ') }}
+                </p>
+            </div>
+        </div>
+
+        <!-- Confirm Password -->
+        <div>
+            <label for="confirm-password" class="block text-sm font-medium text-gray-700">Konfirmasi Password</label>
+            <div class="mt-1 relative">
+                <!-- TODO: Add v-model binding for confirm password -->
+                <input v-model="form.confirmPassword" type="password" id="confirm-password" name="confirmPassword" required
+                    class="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                    placeholder="••••••••" :class="{'border-red-500 ring-red-500': error?.confirmPassword }">
+                <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                    <!-- TODO: Add click handler for confirm password toggle -->
+                    <button type="button" class="text-gray-400 hover:text-gray-600 focus:outline-none">
+                        <i data-feather="eye" class="w-4 h-4" id="confirm-password-toggle"></i>
+                    </button>
+                </div>
+
+                <p class="mt-1 text-xs text-red-500" v-if="error?.confirmPassword">
+                    {{ error?.confirmPassword?.join(', ') }}
                 </p>
             </div>
         </div>
