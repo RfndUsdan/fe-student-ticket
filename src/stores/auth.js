@@ -99,6 +99,25 @@ export const useAuthStore = defineStore("auth", {
             } finally {
                 this.loading = false
             }
+        },
+
+        async deleteAvatar() {
+            this.loading = true;
+            this.error = null;
+            try {
+                const response = await axiosInstance.delete('/profile/avatar');
+                
+                this.user = response.data.data;
+                localStorage.setItem('user', JSON.stringify(this.user));
+                this.success = response.data.message;
+                
+                return true; 
+            } catch (error) {
+                this.error = handleError(error);
+                return false; 
+            } finally {
+                this.loading = false;
+            }
         }
     },
 })

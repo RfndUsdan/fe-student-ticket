@@ -15,6 +15,8 @@ const isLoading = ref(false);
 const showPassword = ref(false);
 const isEditing = ref(false); 
 
+let cropperInstance = null; 
+
 const form = ref({
     name: user.value?.name || '',
     email: user.value?.email || '',
@@ -83,6 +85,20 @@ const closeCropModal = () => {
     imageToCrop.value = null;
 };
 
+const handleDeleteAvatar = async () => {
+    if (!confirm('Yakin ingin menghapus foto profil?')) return;
+    
+    const success = await authStore.deleteAvatar();
+    
+    if (success) {
+        currentAvatar.value = '';
+        form.value.avatar = null;
+        alert('Foto profil berhasil dihapus.');
+    } else {
+        alert(authStore.error || 'Gagal menghapus foto profil.');
+    }
+};
+
 const startEditing = () => {
     isEditing.value = true;
     nextTick(() => feather.replace()); 
@@ -98,6 +114,18 @@ const cancelEditing = () => {
     
     isEditing.value = false;
     nextTick(() => feather.replace()); 
+};
+
+// --- FUNGSI LOGOUT DIPINDAHKAN KE SINI (Di luar handleSubmit) ---
+const handleLogout = async () => {
+    try {
+        if (confirm('Apakah Anda yakin ingin keluar?')) {
+            await authStore.logout();
+        }
+    } catch (error) {
+        console.error("Logout gagal:", error);
+        alert("Terjadi kesalahan saat logout.");
+    }
 };
 
 onMounted(() => {
@@ -180,6 +208,11 @@ const handleSubmit = async () => {
                         <p class="text-sm font-medium text-gray-500 mb-1">Alamat Email</p>
                         <p class="text-base text-gray-900 font-semibold">{{ form.email }}</p>
                     </div>
+                    <button type="button" @click="handleLogout"
+                        class="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-red-600 bg-red-50 border border-red-100 rounded-xl hover:bg-red-100 transition-colors">
+                        <i data-feather="log-out" class="w-4 h-4 mr-2"></i>
+                        Keluar (Logout)
+                    </button>
                 </div>
             </div>
 
@@ -189,11 +222,18 @@ const handleSubmit = async () => {
                     <img :src="currentAvatar ? currentAvatar : `https://ui-avatars.com/api/?name=${form.name}&background=0D8ABC&color=fff`" 
                          alt="Avatar" 
                          class="w-24 h-24 rounded-full object-cover border border-gray-200 shadow-sm">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Ganti Foto Profil</label>
+                    
+                    <div class="flex flex-col gap-1">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Ganti Foto Profil</label>
                         <input type="file" @change="handleFileUpload" accept="image/jpeg,image/png,image/jpg" 
                                class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer" />
-                        <p class="text-xs text-gray-400 mt-2">Maksimal ukuran file: 2MB.</p>
+                        
+                        <button v-if="currentAvatar" type="button" @click="handleDeleteAvatar"
+                            class="text-xs text-red-600 hover:text-red-800 font-medium text-left mt-2">
+                            Hapus Foto Saat Ini
+                        </button>
+                        
+                        <p class="text-xs text-gray-400 mt-1">Maksimal ukuran file: 2MB.</p>
                     </div>
                 </div>
 

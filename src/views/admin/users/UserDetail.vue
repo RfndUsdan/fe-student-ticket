@@ -9,26 +9,21 @@ const route = useRoute();
 const router = useRouter();
 const userStore = useUserStore();
 
-// Ambil state loading dari store
 const { loading } = storeToRefs(userStore);
-
-// Ambil ID dari URL (/admin/users/:id)
 const userId = route.params.id;
 
-// State untuk menyimpan data form
 const form = ref({
     name: '',
     email: '',
     nim: '',
     role: '',
     password: '',
-    avatar: null
+    avatar: null,
+    remove_avatar: false // State baru untuk melacak penghapusan
 });
 
-// State untuk menampilkan avatar lama
 const currentAvatar = ref('');
 
-// Ambil data user saat komponen dimuat
 onMounted(async () => {
     try {
         const userData = await userStore.fetchUser(userId);
@@ -49,14 +44,19 @@ onMounted(async () => {
     });
 });
 
-// Handler saat file dipilih
 const handleFileUpload = (event) => {
     form.value.avatar = event.target.files[0];
+    form.value.remove_avatar = false; // Batal hapus jika user memilih foto baru
 };
 
-// Handler saat form disubmit
+// --- FUNGSI BARU UNTUK HAPUS FOTO SECARA LOKAL SEBELUM SUBMIT ---
+const handleRemoveAvatar = () => {
+    form.value.avatar = null;
+    currentAvatar.value = '';
+    form.value.remove_avatar = true; // Tandai agar backend tahu foto dihapus
+};
+
 const handleSubmit = async () => {
-    // Gunakan FormData karena kita mungkin mengirim file gambar
     const formData = new FormData();
     formData.append('_method', 'PUT');
     formData.append('name', form.value.name);
@@ -70,6 +70,11 @@ const handleSubmit = async () => {
 
     if (form.value.avatar) {
         formData.append('avatar', form.value.avatar);
+    }
+
+    // Jika admin menekan tombol hapus, kirim parameter remove_avatar ke backend
+    if (form.value.remove_avatar) {
+        formData.append('remove_avatar', '1');
     }
 
     try {
@@ -101,10 +106,17 @@ const handleSubmit = async () => {
                     <img :src="currentAvatar ? currentAvatar : `https://ui-avatars.com/api/?name=${form.name || 'User'}&background=0D8ABC&color=fff`" 
                          alt="Avatar" 
                          class="w-16 h-16 rounded-full object-cover border border-gray-200 shadow-sm">
-                    <div>
+                    
+                    <div class="flex flex-col gap-1">
                         <label class="block text-sm font-medium text-gray-700 mb-1">Ganti Avatar</label>
                         <input type="file" @change="handleFileUpload" accept="image/jpeg,image/png,image/jpg" 
                                class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" />
+                        
+                        <button v-if="currentAvatar" type="button" @click="handleRemoveAvatar"
+                            class="text-xs text-red-600 hover:text-red-800 font-medium text-left mt-1">
+                            Hapus Avatar
+                        </button>
+
                         <p class="text-xs text-gray-400 mt-1">Kosongkan jika tidak ingin mengubah avatar. (Maks: 2MB)</p>
                     </div>
                 </div>
@@ -123,7 +135,7 @@ const handleSubmit = async () => {
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">NIM / NIK</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">NIM</label>
                         <input type="text" v-model="form.nim" required
                             class="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
                     </div>

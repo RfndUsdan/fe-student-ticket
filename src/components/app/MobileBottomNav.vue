@@ -12,6 +12,12 @@ watch(() => route.path, () => {
     });
 });
 
+watch(route, () => {
+    nextTick(() => {
+        feather.replace();
+    });
+});
+
 onMounted(() => {
     nextTick(() => {
         feather.replace();
@@ -25,7 +31,7 @@ onMounted(() => {
             
             <RouterLink :to="{ name: 'app.dashboard' }" 
                 class="flex flex-col items-center justify-center w-full h-full text-gray-400 hover:text-blue-600 transition-colors"
-                active-class="!text-blue-600">
+                exact-active-class="!text-blue-600">
                 <i data-feather="home" class="w-6 h-6 mb-1"></i>
                 <span class="text-[10px] font-medium">Beranda</span>
             </RouterLink>
@@ -44,7 +50,7 @@ onMounted(() => {
 
             <RouterLink :to="{ name: 'app.profile' }" 
                 class="flex flex-col items-center justify-center w-full h-full text-gray-400 hover:text-blue-600 transition-colors"
-                active-class="!text-blue-600">
+                exact-active-class="!text-blue-600">
                 <i data-feather="user" class="w-6 h-6 mb-1"></i>
                 <span class="text-[10px] font-medium">Profil</span>
             </RouterLink>
