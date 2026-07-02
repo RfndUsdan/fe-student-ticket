@@ -13,7 +13,6 @@ const handleLogout = async () => {
     <aside class="w-64 bg-gray-50 min-h-screen shadow-xl">
         <div class="p-6 border-b border-gray-800">
             <h1 class="text-2xl font-bold text-blue-500 flex items-center">
-                <i data-feather="book" class="w-8 h-8 mr-2 text-blue-500"></i>
                 Student-Ticket
             </h1>
         </div>

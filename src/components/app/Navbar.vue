@@ -24,9 +24,19 @@ const handleLogout = async () => {
             <div class="flex justify-between h-16">
                 
                 <div class="flex items-center gap-8">
-                    <RouterLink :to="{ name: 'app.dashboard' }" class="flex items-center">
-                        <i data-feather="book" class="w-8 h-8 text-blue-600"></i>
-                        <span class="ml-2 text-xl font-bold text-blue-600">Student-Ticket</span>
+                    <RouterLink :to="{ name: 'app.dashboard' }" class="flex items-center gap-3">
+                        <div class="flex-shrink-0">
+                            <img src="/logo.png" alt="Logo Apa Kabar" class="h-10 w-auto" />
+                        </div>
+                        
+                        <div class="text-left flex flex-col justify-center">
+                            <span class="text-xl font-bold leading-none">
+                                <span class="text-[#005AA1]">Apa</span> <span class="text-[#F58323]">Kabar</span>
+                            </span>
+                            <span class="text-[10px] sm:text-xs font-semibold text-gray-500 mt-1">
+                                Aplikasi Pelaporan Kerusakan Barang
+                            </span>
+                        </div>
                     </RouterLink>
 
                     <div class="hidden md:flex space-x-6 h-16">
