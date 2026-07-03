@@ -37,26 +37,23 @@ onMounted(() => {
             </RouterLink>
 
             <RouterLink :to="{ name: 'app.ticket.create' }" 
-                        class="relative flex flex-col items-center justify-center w-full h-full group text-gray-400 hover:text-blue-600 transition-colors">
+                        class="flex flex-col items-center justify-center w-full h-full group text-gray-400 hover:text-blue-600">
                 
-                <div class="transition-all duration-200 flex items-center justify-center"
-                     :class="{
-                         'absolute -top-6 p-2.5': route.name === 'app.ticket.create',
-                         'relative mb-1': route.name !== 'app.ticket.create'
-                     }">
+                <div class="relative w-6 h-6 mb-1">
                     
                     <img src="/logo.png" alt="Logo" 
-                        class="object-contain md:hidden transition-all duration-200 transform" 
+                        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 object-contain md:hidden transition-all duration-200" 
                         :class="{
-                            'w-9 h-9 scale-110 [filter:drop-shadow(0_0_2px_#005AA1)_drop-shadow(0_0_2px_#005AA1)]': route.name === 'app.ticket.create',
-                            'w-6 h-6 scale-100 group-hover:scale-110 drop-shadow-none': route.name !== 'app.ticket.create'
+                            /* Class dinamis sekarang hanya mengatur kemunculan stroke/shadow */
+                            '[filter:drop-shadow(0_0_2px_#005AA1)_drop-shadow(0_0_2px_#005AA1)]': route.name === 'app.ticket.create',
+                            'drop-shadow-none': route.name !== 'app.ticket.create'
                         }" />
 
                 </div>
                 
-                <span class="text-[10px] font-medium transition-colors" 
+                <span class="text-[10px] font-medium" 
                     :class="{ 
-                        'mt-7 !text-blue-600': route.name === 'app.ticket.create' 
+                        '!text-blue-600': route.name === 'app.ticket.create' 
                     }">
                     Buat Tiket
                 </span>

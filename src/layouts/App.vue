@@ -4,10 +4,10 @@ import MobileBottomNav from '@/components/app/MobileBottomNav.vue';
 </script>
 
 <template>
-    <div class="bg-gray-50">
+    <div class="bg-gray-50 min-h-screen">
         <Navbar />
 
-        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-24 md:pb-8">
             <router-view></router-view>
         </main>
 
