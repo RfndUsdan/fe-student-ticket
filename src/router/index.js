@@ -97,9 +97,15 @@ const router = createRouter({
         {
           path: 'users/:id',
           name: 'admin.users.detail',
-          component: UserDetail, // Pastikan komponen ini sudah ada nanti
+          component: UserDetail, 
           meta: { requiresAuth: true, isAdmin: true, title: 'Detail User' },
         },
+        {
+          path: '/admin/reports',
+          name: 'admin.reports',
+          component: () => import('@/views/admin/Report.vue'),
+          meta: { requiresAuth: true, isAdmin: true, title: 'Laporan' }, 
+      },
       ],
     },
     {

@@ -40,7 +40,6 @@ export const useUserStore = defineStore("user", {
             this.error = null;
             
             try {
-                // Menggunakan POST untuk mengirim data baru
                 const response = await axiosInstance.post('/users', payload, {
                     headers: {
                         'Content-Type': 'multipart/form-data' 
@@ -65,7 +64,6 @@ export const useUserStore = defineStore("user", {
                 const response = await axiosInstance.delete(`/users/${id}`);
                 this.success = response.data.message;
                 
-                // Hapus user dari state lokal agar UI langsung terupdate
                 this.users = this.users.filter(user => user.id !== id);
                 
                 return response.data;
@@ -82,10 +80,9 @@ export const useUserStore = defineStore("user", {
             this.error = null;
             
             try {
-                // Kita gunakan method POST karena backend sudah disiapkan Route::post('/users/{user}')
                 const response = await axiosInstance.post(`/users/${id}`, payload, {
                     headers: {
-                        'Content-Type': 'multipart/form-data' // Penting untuk upload file
+                        'Content-Type': 'multipart/form-data' 
                     }
                 });
                 
@@ -93,7 +90,7 @@ export const useUserStore = defineStore("user", {
                 return response.data.data;
             } catch (error) {
                 this.error = handleError(error);
-                throw error; // Lempar error agar bisa ditangani di komponen
+                throw error; 
             } finally {
                 this.loading = false;
             }
